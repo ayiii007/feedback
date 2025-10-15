@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间管理局通知</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            padding: 30px;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+        .stamp {
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            width: 150px;
+            height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="%23d40000" stroke-width="8" stroke-dasharray="10,5"/><circle cx="100" cy="100" r="70" fill="none" stroke="%23d40000" stroke-width="3"/><text x="100" y="80" font-family="SimSun" font-size="24" fill="%23d40000" text-anchor="middle" font-weight="bold">时间管理局</text><text x="100" y="115" font-family="SimSun" font-size="18" fill="%23d40000" text-anchor="middle" font-weight="bold">官方印章</text><text x="100" y="150" font-family="SimSun" font-size="16" fill="%23d40000" text-anchor="middle" font-weight="bold">★ 核准 ★</text></svg>');
+            transform: rotate(15deg);
+            opacity: 0.9;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
+        }
+        .stamp::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        h1::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            margin: 10px auto;
+        }
+        .notice {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            position: relative;
+        }
+        .notice::before {
+            content: "“";
+            font-size: 60px;
+            color: #3498db;
+            position: absolute;
+            left: 5px;
+            top: -15px;
+            line-height: 1;
+            opacity: 0.2;
+        }
+        .slow-effect {
+            animation: slowTime 5s linear infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes slowTime {
+            0% { filter: blur(0); }
+            50% { filter: blur(1px); transform: scale(0.99); }
+            100% { filter: blur(0); }
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+        .btn:hover::after {
+            left: 100%;
+        }
+        .clock {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #e74c3c;
+            letter-spacing: 2px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #7f8c8d;
+            position: relative;
+        }
+        .footer::before {
+            content: "";
+            display: block;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #7f8c8d, transparent);
+            margin: 0 auto 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container slow-effect">
+        <div class="stamp"></div>
+        <h1>时间管理局通知</h1>
+        
+        <div class="notice">
+            <p>尊敬的公民：</p>
+            <p>关于您之前反映的<strong>10.1~10.8时间流速过快</strong>的问题，我局已收到反馈并进行了详细核查。</p>
+            <p>经核实，该时间段确实存在时间流速异常加快的情况，对此我们深表歉意。</p>
+            <p>为弥补您的损失，我局决定：</p>
+            <p><strong>特别放慢2023年10月9日至12月31日的时间流速</strong>，希望您能享受这段"慢时光"。</p>
+        </div>
+        
+        <div class="clock" id="clock">00:00:00</div>
+        
+        <p>感谢您对时间管理工作的支持！</p>
+        <p>祝您生活愉快！</p>
+        
+        <button class="btn" onclick="showSecret()">查看时间调节详情</button>
+        
+        <div class="footer">
+            <p>时间管理局 © 2023 | 宇宙标准时间协调中心</p>
+            <p>签发日期：2023年10月9日</p>
+        </div>
+    </div>
+
+    <script>
+        // 显示当前时间（故意调慢）
+        function updateClock() {
+            const now = new Date();
+            // 让时间走得比实际慢20%
+            const slowNow = new Date(now.getTime() * 0.8);
+            const hours = String(slowNow.getHours()).padStart(2, '0');
+            const minutes = String(slowNow.getMinutes()).padStart(2, '0');
+            const seconds = String(slowNow.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        // 点击按钮后的效果
+        function showSecret() {
+            // 创建模态框
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+            
+            // 模态框内容
+            const modalContent = document.createElement('div');
+            modalContent.style.backgroundColor = 'white';
+            modalContent.style.padding = '30px';
+            modalContent.style.borderRadius = '10px';
+            modalContent.style.maxWidth = '500px';
+            modalContent.style.position = 'relative';
+            
+            // 添加印章
+            const modalStamp = document.createElement('div');
+            modalStamp.style.position = 'absolute';
+            modalStamp.style.top = '-30px';
+            modalStamp.style.right = '-30px';
+            modalStamp.style.width = '120px';
+            modalStamp.style.height = '120px';
+            modalStamp.style.backgroundImage = 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="%23d40000" stroke-width="3" stroke-dasharray="8,4"/><text x="50" y="40" font-family="SimSun" font-size="12" fill="%23d40000" text-anchor="middle">机密文件</text><text x="50" y="60" font-family="SimSun" font-size="12" fill="%23d40000" text-anchor="middle">仅限查阅</text></svg>\')';
+            modalStamp.style.transform = 'rotate(15deg)';
+            modalStamp.style.filter = 'drop-shadow(2px 2px 2px rgba(0,0,0,0.3))';
+            
+            modalContent.innerHTML = `
+                <h2 style="color: #2c3e50; margin-top: 0;">时间调节技术细节</h2>
+                <p><strong>技术名称：</strong>量子时间减速器(TDS-3000)</p>
+                <p><strong>实施范围：</strong>您所在的时空区域</p>
+                <p><strong>减速系数：</strong>0.8倍速</p>
+                <p><strong>持续时间：</strong>2023年10月9日 00:00:00 至 2023年12月31日 23:59:59</p>
+                <p><strong>注意事项：</strong></p>
+                <ul>
+                    <li>减速效果可能因个体感知差异而略有不同</li>
+                    <li>请勿在减速期间进行精密时间测量工作</li>
+                    <li>如有不适，请联系时间管理局客服中心</li>
+                </ul>
+                <button onclick="this.parentElement.parentElement.remove()" style="background-color: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 15px;">关闭</button>
+            `;
+            
+            modalContent.appendChild(modalStamp);
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+            
+            // 添加关闭按钮事件
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+        
+        // 添加鼠标移动时的"时间扭曲"效果
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            document.querySelector('.container').style.transform = `
+                rotate(${(x - 0.5) * 5}deg)
+                translateY(${(y - 0.5) * -10}px)
+            `;
+        });
+    </script>
+</body>
+</html>
