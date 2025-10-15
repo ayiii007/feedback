@@ -3,22 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>时间管理局通知</title>
+    <title>微信红包</title>
     <style>
-        body {
-            font-family: 'Microsoft YaHei', sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-            line-height: 1.6;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            color: #333;
+            line-height: 1.6;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
             transition: all 0.5s ease;
         }
+        
+        /* 微信红包封面样式 */
+        #redpacket-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #e64340 0%, #d63031 100%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #f8e3b0;
+            text-align: center;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+        }
+        
+        .redpacket-top {
+            width: 100%;
+            height: 40%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 20px;
+        }
+        
+        .redpacket-bottom {
+            width: 100%;
+            height: 60%;
+            background: #f8e3b0;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .redpacket-icon {
+            width: 100px;
+            height: 100px;
+            background: #f8e3b0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 3px solid #e64340;
+        }
+        
+        .redpacket-icon span {
+            font-size: 50px;
+            color: #e64340;
+        }
+        
+        .redpacket-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .redpacket-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .open-button {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at center, #f8e3b0, #e6c88a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            margin-top: -90px;
+            border: 5px solid #e64340;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .open-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .open-button span {
+            font-size: 36px;
+            color: #e64340;
+            font-weight: bold;
+        }
+        
+        .sender-info {
+            margin-top: 40px;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .wechat-footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* 时间管理局通知样式 */
         .container {
             background-color: white;
             border-radius: 10px;
@@ -27,8 +146,11 @@
             max-width: 600px;
             text-align: center;
             position: relative;
+            display: none;
             animation: float 3s ease-in-out infinite;
+            margin: 20px;
         }
+        
         .stamp {
             position: absolute;
             top: -25px;
@@ -40,6 +162,7 @@
             opacity: 0.9;
             filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
         }
+        
         .stamp::after {
             content: "";
             position: absolute;
@@ -50,11 +173,13 @@
             background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%);
             border-radius: 50%;
         }
+        
         h1 {
             color: #2c3e50;
             margin-bottom: 20px;
             position: relative;
         }
+        
         h1::after {
             content: "";
             display: block;
@@ -63,6 +188,7 @@
             background: linear-gradient(to right, #3498db, #2c3e50);
             margin: 10px auto;
         }
+        
         .notice {
             background-color: #f8f9fa;
             border-left: 4px solid #3498db;
@@ -71,6 +197,7 @@
             text-align: left;
             position: relative;
         }
+        
         .notice::before {
             content: "“";
             font-size: 60px;
@@ -81,18 +208,28 @@
             line-height: 1;
             opacity: 0.2;
         }
+        
         .slow-effect {
             animation: slowTime 5s linear infinite;
         }
+        
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+        
         @keyframes slowTime {
             0% { filter: blur(0); }
             50% { filter: blur(1px); transform: scale(0.99); }
             100% { filter: blur(0); }
         }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
         .btn {
             background-color: #3498db;
             color: white;
@@ -106,10 +243,12 @@
             position: relative;
             overflow: hidden;
         }
+        
         .btn:hover {
             background-color: #2980b9;
             transform: scale(1.05);
         }
+        
         .btn::after {
             content: "";
             position: absolute;
@@ -121,9 +260,11 @@
             transform: rotate(45deg);
             transition: all 0.3s ease;
         }
+        
         .btn:hover::after {
             left: 100%;
         }
+        
         .clock {
             font-size: 24px;
             font-weight: bold;
@@ -131,12 +272,14 @@
             color: #e74c3c;
             letter-spacing: 2px;
         }
+        
         .footer {
             margin-top: 30px;
             font-size: 12px;
             color: #7f8c8d;
             position: relative;
         }
+        
         .footer::before {
             content: "";
             display: block;
@@ -145,10 +288,39 @@
             background: linear-gradient(to right, transparent, #7f8c8d, transparent);
             margin: 0 auto 10px;
         }
+        
+        /* 红包打开动画 */
+        @keyframes openRedpacket {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        .open-animation {
+            animation: openRedpacket 0.8s forwards;
+        }
     </style>
 </head>
 <body>
-    <div class="container slow-effect">
+    <!-- 微信红包封面 -->
+    <div id="redpacket-cover">
+        <div class="redpacket-top">
+            <div class="redpacket-icon">
+                <span>福</span>
+            </div>
+            <div class="redpacket-title">恭喜发财，大吉大利！</div>
+            <div class="redpacket-subtitle">时间管理局送您一个特别红包</div>
+        </div>
+        <div class="redpacket-bottom">
+            <div class="open-button" id="open-button">
+                <span>開</span>
+            </div>
+            <div class="sender-info">时间管理局</div>
+            <div class="wechat-footer">微信红包</div>
+        </div>
+    </div>
+    
+    <!-- 时间管理局通知内容 -->
+    <div class="container slow-effect" id="time-notice">
         <div class="stamp"></div>
         <h1>时间管理局通知</h1>
         
@@ -174,6 +346,17 @@
     </div>
 
     <script>
+        // 打开红包的动画
+        document.getElementById('open-button').addEventListener('click', function() {
+            const redpacket = document.getElementById('redpacket-cover');
+            redpacket.classList.add('open-animation');
+            
+            setTimeout(function() {
+                redpacket.style.display = 'none';
+                document.getElementById('time-notice').style.display = 'block';
+            }, 800);
+        });
+        
         // 显示当前时间（故意调慢）
         function updateClock() {
             const now = new Date();
@@ -253,10 +436,13 @@
         document.addEventListener('mousemove', (e) => {
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
-            document.querySelector('.container').style.transform = `
-                rotate(${(x - 0.5) * 5}deg)
-                translateY(${(y - 0.5) * -10}px)
-            `;
+            const container = document.querySelector('.container');
+            if (container.style.display === 'block') {
+                container.style.transform = `
+                    rotate(${(x - 0.5) * 5}deg)
+                    translateY(${(y - 0.5) * -10}px)
+                `;
+            }
         });
     </script>
 </body>
